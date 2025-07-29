@@ -1,0 +1,83 @@
+# Model run parameters
+data_dir: './data_uploads'
+results_dir: './model_results/___scenario_name___'
+
+# fixed load scenario
+fixed_load_sce: True
+# fixed load data directory. sp: single-phase domestic load; tp: three-phase PUE load
+fixed_load_dir: 'fixed_load_ts/sp_tp'
+# mini-gird (mg) data - if True, read the daily pue consumption file for PUEs
+flex_pue_dir: 'flex_pue_ts/sp_tp'
+# in scenarios with motor PUE, set this TRUE, battery + diesel capacities >= motor rating power
+motor_cap_limit: True
+no_motor_cap_scenarios: ['sp']
+motor_cap_dir: 'motor_cap_list.csv'
+# allow supply deficit / load shedding maximum fraction
+supply_deficit_sce: False
+allowed_supply_deficit_frac: 0
+deficit_penalty: 1 # panelty for supply deficit, avoiding abuse.
+# For the issue of non-unique solutions. When fixed_gen_caps is True for analyzing hours of curtailment, True.
+supply_deficit_binary_sce: False
+# sized system with solar, battery capacities.
+fixed_gen_caps: False
+system_capacity: 'sized_capacity_for_fixed_gen/gen_capacity_capacity.csv'
+# Curtailable load scenario for single customer peak days
+curtailable_load_sce: True
+curtailment_dir: 'fixed_load_ts/curtailable_ts'
+curtailment_nominal: 0.01
+
+# scenario binary & technology availability
+solar_ava: True
+battery_la_ava: True
+battery_li_ava: False
+diesel_ava: False
+diesel_vali_cond: False
+
+# time limits [s]
+model_time_limit: 20000
+
+# general model assumptions
+num_year_fixed_load: 1
+num_hour_fixed_load: 8760
+num_year_flex_pue: 1
+num_hour_flex_pue: 8760
+
+# discount rate used
+i_rate: 0.10
+
+# Solar generation
+solar_region: 'lamwo'
+solar_cost_kw: 960
+annualize_years_solar: 15
+solar_min_cap: 0
+
+# Battery. lc: lead-acid; li: li-ion.
+battery_la_cost_kwh: 181
+battery_la_eff: 0.894      # round way efficiency 80%
+battery_la_min_soc: 0.4
+annualize_years_battery_la: 5
+battery_li_cost_kwh: 461   
+battery_li_eff: 0.949     # round way efficiency 90%
+battery_li_min_soc: 0.1
+annualize_years_battery_li: 10
+battery_nominal: 0
+
+battery_inverter_cost_kw: 173
+annualize_years_battery_inverter: 10
+battery_la_p2e_ratio_range: [0.01, 2]
+battery_li_p2e_ratio_range: [0.01, 2]
+nominal_discharge_cost_kwh: 0.0001 # avoiding non-necessary battery activity
+
+# Diesel
+diesel_cap_cost_kw: 808
+diesel_cost_liter: 1.4
+diesel_min_cap: 1
+liter_per_kwh: 0.094634 # diesel fuel energy density
+reserve_req: 1          # ignore the reserve capacity
+diesel_eff: 0.3
+annualize_years_diesel: 10
+
+# Gurobi solver parameters
+feasibility_tol: 0.0001
+optimality_tol: 0.0001
+solver_method: -1
