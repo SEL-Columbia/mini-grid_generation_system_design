@@ -44,8 +44,10 @@ def process_results(args, caps_results, ts_results):
     solar_pot_hourly = load_timeseries(args, solar_region)
 
     # Calculate demand, generation, solar uncurtailed / actual CF
-    avg_total_demand = np.mean(ts_results.commercial_load_kw + ts_results.fixed_load_kw)
-    peak_total_demand = np.max(ts_results.commercial_load_kw + ts_results.fixed_load_kw)
+    avg_total_demand = np.mean(ts_results.commercial_load_kw + ts_results.fixed_load_kw - 
+                               ts_results.supply_deficit_kw - ts_results.curtailed_load_kw)
+    peak_total_demand = np.max(ts_results.commercial_load_kw + ts_results.fixed_load_kw - 
+                               ts_results.supply_deficit_kw - ts_results.curtailed_load_kw)
 
     avg_solar_gen = np.mean(ts_results.solar_util_kw)
     avg_diesel_gen = np.mean(ts_results.diesel_util_kw)
